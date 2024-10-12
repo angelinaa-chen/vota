@@ -29,6 +29,7 @@ function Home() {
   const submitAction = (e) => {
     e.preventDefault();
     navigate(`/location/${location}`)
+    window.scrollTo(0, 20);
   };
 
   {/* Styles for countdown timer boxes. */}
@@ -275,11 +276,42 @@ function Home() {
 }
 
 function Location() {
+  
+  const slideInElements = useRef([]);
   const { location } = useParams();
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+            observer.unobserve(entry.target); 
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    slideInElements.current.forEach((el) => {
+      if (el) {
+        observer.observe(el);
+      }
+    });
+
+    return () => {
+      slideInElements.current.forEach((el) => {
+        if (el) {
+          observer.unobserve(el);
+        }
+      });
+    };
+  }, []);
+
   return (
-    <div style = {{ textAlign: 'center', marginTop: '50px', fontFamily: 'sarabun' }}>
-      <h1> Location: {location} </h1>
-      <p> KIM REYNOLDS </p>
+    <div style = {{ textAlign: 'left', padding: '70px', fontFamily: 'sarabun'}}>
+      <h2 className = "slide-in" ref = {(el) => slideInElements.current.push(el) }> House and Senate Representatives for </h2>
+      <h1 className = "slide-in" ref = {(el) => slideInElements.current.push(el) } style = {{ color: '#4C63FF', fontSize: '45pt', fontWeight: '700'}} > {location} </h1>
 
       <div style={{ marginTop: '50px' }}>
         <Chatbot
@@ -289,8 +321,10 @@ function Location() {
         />
       </div>
 
+      <h1> More text </h1>
+
     </div>
-  )
+  );
 }
 
 function App() {
