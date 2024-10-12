@@ -141,11 +141,17 @@ function Home() {
       {message && <p> {message} </p>}
 
       <br></br>
-      <p style = {{color: '#555555', fontSize: '20px', fontWeight: '500'}}>
-          Welcome to CivicConnect!
+      <br></br>
+      <br></br>
+      <p style = {{color: '#555555', fontSize: '20px', fontWeight: '500', lineHeight: 1.8, textAlign: 'center'}}>
+          Welcome to CivicConnect, your centralized output for voting information! With the 2024 presidential election coming up, CivicConnect is here 
+          to provide you with comprehensive resources, tools, and information to help you navigate the voting landscape effortlessly.
+          Simply type in your location to learn more about the representatives that serve you, and about voting registration details and deadlines!
       </p>
       
+
       {/* Timeline of deadline dates. */}
+      <br></br>
       <br></br>
       <h2 className = "slide-in" ref = {(el) => slideInElements.current.push(el)} style = {{ marginBottom: '70px' }}> Key upcoming dates and events </h2>
       <div className = "slide-in" ref = {(el) => slideInElements.current.push(el)} style = {{ margin: '40px auto' }}>
