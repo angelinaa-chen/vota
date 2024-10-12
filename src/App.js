@@ -1,25 +1,46 @@
-import logo from './logo.svg';
 import './App.css';
-// import "@fontsource/sarabun";
 import "@fontsource/sarabun/200.css";
 import "@fontsource/sarabun/500.css";
 import "@fontsource/sarabun/700.css";
 import votingImage from './images/voting_2.png';
 import { useEffect, useRef } from 'react';
-// import "@fontsource/sarabun/700.css";
 
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link, useNavigate, useParams } from 'react-router-dom';
 
 function Home() {
   const [location, setLocation] = useState('');
-  const [countdown, setCountdown] = useState('');
+  const [days, setDays] = useState(0);
+  const [hours, setHours] = useState(0);
+  const [minutes, setMinutes] = useState(0);
+  const [seconds, setSeconds] = useState(0);
+  const [message, setMessage] = useState('');
   const navigate = useNavigate();
   const slideInElements = useRef([]);
 
   const submitAction = (e) => {
     e.preventDefault();
     navigate(`/location/${location}`)
+  };
+
+  {/* Styles for countdown timer boxes. */}
+  const boxStyle = {
+    backgroundColor: 'white',
+    color: '#FF6F61',
+    fontSize: '40pt',
+    padding: '40px 20px',
+    borderRadius: '10px',
+    boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+    textAlign: 'center',
+    minWidth: '120px',
+    minHeight: '120px',
+  };
+
+  const labelStyle = {
+    display: 'block',
+    fontSize: '14pt',
+    color: '#333333',
+    marginTop: '10px',
   };
 
   useEffect(() => {
@@ -31,7 +52,7 @@ function Home() {
 
       if (distance < 0) {
         clearInterval(interval);
-        setCountdown('Election Day has arrived!');
+        setMessage("It's Election day! Go make your vote count!");
         return;
       }
 
@@ -40,7 +61,10 @@ function Home() {
       const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-      setCountdown(`${days}d ${hours}h ${minutes}m ${seconds}s`);
+      setDays(days);
+      setHours(hours);
+      setMinutes(minutes);
+      setSeconds(seconds);
     }, 1000);
 
     return () => clearInterval(interval);
@@ -82,8 +106,8 @@ function Home() {
       <div className = "floating-circle circle-2"> </div>
       <div className = "floating-circle circle-3"> </div>
 
+      {/* Heading & Title Section */}
       <div className = "slide-in" ref = {(el) => slideInElements.current.push(el)} style = {{ textAlign: 'left', flex: '1' }}>
-        {/* Heading & Title Section */}
         <h1 style = {{ color: '#2F2E41', fontSize: '35pt', marginBottom: '-30px', fontWeight: '700', marginTop: '100px'}}> Welcome to </h1>
         <h1 style = {{ color: '#2F2E41', fontSize: '45pt', fontWeight: '700'}}> CivicConnect! <span style = {{color: '#4C63FF', fontSize: '25pt', marginLeft: '20px'}} > One vote, one voice. </span> </h1>
         <p style = {{ maxWidth: '700px', color: '#555555', fontSize: '20px', fontWeight: '500', marginTop: '50px', lineHeight: '1.5' }}>
@@ -92,16 +116,35 @@ function Home() {
       </div>
 
       {/* Adds the image. */}
-      <div className = "slide-in" ref = {(el) => slideInElements.current.push(el)} style = {{ flex: '1', textAlign: 'right' }}>
+      <div className = "slide-in" ref = {(el) => slideInElements.current.push(el)} style = {{ flex: '1', textAlign: 'right', marginBottom: '20px'}}>
         <img src = {votingImage} alt = "voting_image" className = "slide-in slide-in-delay-1" style = {{ maxWidth: '50%', marginTop: '-400px', marginLeft: '750px'}} />
       </div>
 
+      <br></br>
 
       {/* Countdown to election timer. */}
-      <div style = {{ color: '#FF6F61', fontSize: '20pt', margin: '20px 0' }}>
-        Time until Election Day: {countdown}
+      <h2 style = {{ textAlign: 'center' , fontSize: '30px', color: '#FF6F61', marginBottom: '40px'}}> Time Until Election Day </h2>
+      <div style = {{ display: 'flex', gap: '20px', margin: '20px 0' , justifyContent: 'center'}}>
+        <div style = {boxStyle}>
+          {days} <span style = {labelStyle} > Days </span>
+        </div>
+        <div style={boxStyle}>
+          {hours} <span style = {labelStyle}> Hours </span>
+        </div>
+        <div style = {boxStyle}>
+          {minutes} <span style = {labelStyle}> Minutes </span>
+        </div>
+        <div style = {boxStyle}>
+          {seconds} <span style = {labelStyle}> Seconds </span>
+        </div>
       </div>
+      {message && <p> {message} </p>}
 
+      <br></br>
+      <p style = {{color: '#555555', fontSize: '20px', fontWeight: '500'}}>
+          Welcome to CivicConnect!
+      </p>
+      
       {/* Timeline of deadline dates. */}
       <br></br>
       <h2 className = "slide-in" ref = {(el) => slideInElements.current.push(el)} style = {{ marginBottom: '70px' }}> Key upcoming dates and events </h2>
