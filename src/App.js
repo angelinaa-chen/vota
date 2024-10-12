@@ -10,7 +10,8 @@ import Chatbot from "react-chatbot-kit";
 import ChatBotConfig from './ChatBotConfig.js';
 import MessageParser from "./MessageParser";
 import ActionProvider from "./ActionProvider";
-import "react-chatbot-kit/build/main.css";
+import './ChatBotStyles.css';
+// import "react-chatbot-kit/build/main.css";
 
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link, useNavigate, useParams } from 'react-router-dom';
@@ -280,7 +281,7 @@ function Location() {
       <h1> Location: {location} </h1>
       <p> KIM REYNOLDS </p>
 
-      <div style = {{ marginTop: '50px' }}>
+      <div style={{ marginTop: '50px' }}>
         <Chatbot
           config={ChatBotConfig}
           messageParser={MessageParser}
