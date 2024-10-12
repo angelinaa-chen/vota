@@ -40,7 +40,7 @@ def get_jurisdictions():
   }
 
   classification = request.args.get('classification', 'state')  # Default to 'state'
-  page = request.args.get('page', 1)  # Default to page 1
+  # page = request.args.get('page', 1)  # Default to page 1
 
   for page in range(1,35):  
     response = requests.get(f"{url}&page={page}&classification={classification}", headers=headers)
@@ -53,31 +53,40 @@ def get_jurisdictions():
   
 #returns list of candidates for a given state 
   #call jurisdictions, iterate through its json of states, match to get the id
-# @app.route("/candidates/<state>")
-# def get_candidates(state):
-#   candidates = []
-#   url="https://v3.openstates.org/people?apikey=apikey"
-#   headers = {
-#     "X-API-KEY": api_key  # Authentication
-#   }
-#   state_json = get_jurisdictions()
-#   print("State JSON:", state_json)
+@app.route("/candidates/<state>")
+def get_candidates(state):
+  candidates = []
+  url="https://v3.openstates.org/people?apikey=apikey"
+  headers = {
+    "X-API-KEY": api_key  # Authentication
+  }
+  state_json = get_jurisdictions().get_json()
+
+  for jurisdiction in state_json:
+        if jurisdiction.lower() == state.lower():
+            # Do something here, for example, add the state to the candidates list
+            return candidates.append(jurisdiction)
+
+  if candidates:
+      return jsonify(candidates)  # Return a JSON response
+  else:
+      return jsonify({"error": "State not found"}), 404
 
   
   
-  # id = ""
-  # state_json = get_jurisdictions()
-  # return print(state_json)
-  # for result in state_json:
-  #   if (result['name'] == state):
-  #     id = result['id']
-  # #id = get_id(juris_id)  # Get id of the jurisdiction
+  id = ""
+  state_json = get_jurisdictions()
+  return print(state_json)
+  for result in state_json:
+    if (result['name'] == state):
+      id = result['id']
+  #id = get_id(juris_id)  # Get id of the jurisdiction
 
-  # if id != "":  # Only extend if result is not empty
-  #   response = requests.get(f"{url}&jurisdiction={id}", headers=headers)
-  #   candidates.extend(response)  # Aggregate results
+  if id != "":  # Only extend if result is not empty
+    response = requests.get(f"{url}&jurisdiction={id}", headers=headers)
+    candidates.extend(response)  # Aggregate results
 
-  # return jsonify(candidates)
+  return jsonify(candidates)
 
 # Define a route
 @app.route('/')
