@@ -105,6 +105,10 @@ function Home() {
       <div className = "floating-circle circle-1"> </div>
       <div className = "floating-circle circle-2"> </div>
       <div className = "floating-circle circle-3"> </div>
+      {/* <div className = "floating-circle circle-4"> </div> */}
+      <div className = "floating-circle circle-5"> </div>
+      <div className = "floating-circle circle-6"> </div>
+      <div className = "floating-circle circle-7"> </div>
 
       {/* Heading & Title Section */}
       <div className = "slide-in" ref = {(el) => slideInElements.current.push(el)} style = {{ textAlign: 'left', flex: '1' }}>
@@ -123,8 +127,8 @@ function Home() {
       <br></br>
 
       {/* Countdown to election timer. */}
-      <h2 style = {{ textAlign: 'center' , fontSize: '30px', color: '#FF6F61', marginBottom: '40px'}}> Time Until Election Day </h2>
-      <div style = {{ display: 'flex', gap: '20px', margin: '20px 0' , justifyContent: 'center'}}>
+      <h2 className = "slide-in" ref = {(el) => slideInElements.current.push(el)} style = {{ textAlign: 'center' , fontSize: '30px', color: '#FF6F61', marginBottom: '40px'}}> Time Until Election Day </h2>
+      <div className = "slide-in" ref = {(el) => slideInElements.current.push(el)} style = {{ display: 'flex', gap: '20px', margin: '20px 0' , justifyContent: 'center'}}>
         <div style = {boxStyle}>
           {days} <span style = {labelStyle} > Days </span>
         </div>
@@ -143,11 +147,22 @@ function Home() {
       <br></br>
       <br></br>
       <br></br>
-      <p style = {{color: '#555555', fontSize: '20px', fontWeight: '500', lineHeight: 1.8, textAlign: 'center'}}>
-          Welcome to CivicConnect, your centralized output for voting information! With the 2024 presidential election coming up, CivicConnect is here 
-          to provide you with comprehensive resources, tools, and information to help you navigate the voting landscape effortlessly.
-          Simply type in your location to learn more about the representatives that serve you, and about voting registration details and deadlines!
-      </p>
+
+      <p style = {{ color: '#555555', fontSize: '20px', fontWeight: '500', lineHeight: 1.8, textAlign: 'center' }}> Welcome to  
+        <strong style = {{ color: '#4C63FF', background: 'linear-gradient(180deg, rgba(255, 255, 255, 0) 65%, #d1dbff 65%)' }}> CivicConnect</strong>, 
+          your centralized output for voting information! With the 2024 presidental election coming up, CivicConnect is here to provide you with comprehensive 
+        <strong> resources, tools, and information </strong>
+        to help you 
+        <strong style={{ color: '#4C63FF', background: 'linear-gradient(180deg, rgba(255, 255, 255, 0) 65%, #d1dbff 65%)' }}> navigate the voting landscape effortlessly
+        </strong>. 
+        Simply <strong> type in your location </strong>
+        to
+        <strong style = {{ color: '#4C63FF', background: 'linear-gradient(180deg, rgba(255, 255, 255, 0) 65%, #d1dbff 65%)' }}> learn more about the representatives that serve you
+        </strong> and about 
+        <strong style = {{ color: '#4C63FF', background: 'linear-gradient(180deg, rgba(255, 255, 255, 0) 65%, #d1dbff 65%)' }}> voting registration details and deadlines!
+        </strong> 
+</p>
+
       
 
       {/* Timeline of deadline dates. */}
@@ -211,10 +226,13 @@ function Home() {
       {/* Location Section */}
       <br></br>
       <br></br>
+      <br></br>
       <h2 className = "slide-in" ref = {(el) => slideInElements.current.push(el)} >Find your local representative. </h2>
-      <p className = "slide-in" ref = {(el) => slideInElements.current.push(el)} > Discover your elected representative and access pertinent voting resources! Simply type in your city and state name to get started. </p>
+      <p className = "slide-in" ref = {(el) => slideInElements.current.push(el)} > Discover your elected representative and access pertinent voting resources! Simply type in your 
+      <strong style = {{ color: '#4C63FF', background: 'linear-gradient(180deg, rgba(255, 255, 255, 0) 65%, #d1dbff 65%)' }}> city and state name 
+      </strong> to get started. </p>
       <form className = "slide-in" ref = {(el) => slideInElements.current.push(el)} onSubmit = {submitAction} style = {{ marginTop: '30px', fontFamily: 'sarabun'}}>
-        <label htmlFor = "location" style = {{ fontSize: '18px', color: '#555555' }}> Enter your city and state name in the format "city, state": </label>
+        {/* <label htmlFor = "location" style = {{ fontSize: '18px', color: '#555555' }}> Enter your city and state name in the format "city, state": </label> */}
         <input
           id = "location"
           type = "text"
@@ -222,12 +240,13 @@ function Home() {
           onChange = {(e) => setLocation(e.target.value)}
           placeholder = 'City, State'
           style={{
-            marginLeft: '10px',
+            // marginLeft: '10px',
             padding: '10px',
             fontSize: '16px',
             borderRadius: '4px',
             border: '1px solid #ccc',
-            width: '570px'
+            width: '1000px',
+            marginRight: '50px'
           }}
         />
         <button type =  "submit" style = {{
@@ -238,7 +257,8 @@ function Home() {
           color: '#fff',
           border: 'none',
           borderRadius: '4px',
-          cursor: 'pointer'
+          cursor: 'pointer',
+          marginBottom: '20px'
         }}> Find your representatives! </button>
       </form>
 

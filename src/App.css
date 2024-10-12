@@ -83,6 +83,38 @@
   animation-delay: 4s;
 }
 
+.circle-4 {
+  width: 300px;
+  height: 300px;
+  top: -20%;
+  left: 90%;
+  animation-delay: 0s;
+}
+
+.circle-5 {
+  width: 150px;
+  height: 150px;
+  top: 130%;
+  left: 10%;
+  animation-delay: 0s;
+}
+
+.circle-6 {
+  width: 400px;
+  height: 400px;
+  top: 100%;
+  left: -10%;
+  animation-delay: 0s;
+}
+
+.circle-7 {
+  width: 300px;
+  height: 300px;
+  top: 150%;
+  left: 90%;
+  animation-delay: 0s;
+}
+
 /* Sliding in from botton animation! */
 
 @keyframes slideIn {
