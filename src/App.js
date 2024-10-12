@@ -5,6 +5,14 @@ import "@fontsource/sarabun/700.css";
 import votingImage from './images/voting_2.png';
 import { useEffect, useRef } from 'react';
 
+// Chatbot imports
+import Chatbot from "react-chatbot-kit";
+import ChatBotConfig from './ChatBotConfig.js';
+import MessageParser from "./MessageParser";
+import ActionProvider from "./ActionProvider";
+import './ChatBotStyles.css';
+// import "react-chatbot-kit/build/main.css";
+
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link, useNavigate, useParams } from 'react-router-dom';
 
@@ -272,6 +280,15 @@ function Location() {
     <div style = {{ textAlign: 'center', marginTop: '50px', fontFamily: 'sarabun' }}>
       <h1> Location: {location} </h1>
       <p> KIM REYNOLDS </p>
+
+      <div style={{ marginTop: '50px' }}>
+        <Chatbot
+          config={ChatBotConfig}
+          messageParser={MessageParser}
+          actionProvider={ActionProvider}
+        />
+      </div>
+
     </div>
   )
 }
