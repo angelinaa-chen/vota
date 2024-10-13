@@ -138,3 +138,24 @@
   opacity: 1;
   transform: translateY(0);
 }
+
+/* Butotn animation for 'more info' button. */
+.more-info-button {
+  display: inline-block;
+  padding: 10px 25px;
+  font-size: 18px;
+  color: #4C63FF;
+  background-color: 'white';
+  /* border: 1px solid #4c64ff74; */
+  border-color: '#4C63FF';
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 15px; 
+  text-decoration: none;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.more-info-button:hover {
+  transform: scale(1.1);
+  background-color: #dee3ff5c;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.395);
+}

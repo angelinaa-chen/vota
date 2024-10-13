@@ -296,14 +296,12 @@ function Location() {
 
   const senateStyle = {
     backgroundColor: 'white',
-    color: '#FF6F61',
-    fontSize: '40pt',
     padding: '40px 20px',
     borderRadius: '10px',
     boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
     textAlign: 'center',
-    minWidth: '300px',
-    minHeight: '400px',
+    minWidth: '500px',
+    minHeight: '500px',
   };
 
   useEffect(() => {
@@ -395,55 +393,67 @@ function Location() {
       </h1>
 
       {/* Display member information */}
-      <h1 className="slide-in" ref={(el) => slideInElements.current.push(el)} style={{ color: 'black', fontSize: '35pt', fontWeight: '600', marginTop: '200px' }}>
+      <p className="slide-in" ref={(el) => slideInElements.current.push(el)} style={{ color: 'black', fontSize: '35pt', fontWeight: '600', marginTop: '200px', background: 'linear-gradient(180deg, rgba(255, 255, 255, 0) 65%, #d1dbff 65%)', width: '350px'}}>
         Representatives
-      </h1>
+      </p>
 
       {/* House representative members. */}
-      <h2> House of Representatives </h2>
+      <h2 > House of Representatives </h2>
       {houseMemberRows.map((row, rowIndex) => (
         <div key={rowIndex} className="slide-in" ref={(el) => slideInElements.current.push(el)} style={{ display: 'flex', gap: '50px', margin: '20px 0', justifyContent: 'center' }}>
           {row.map(member => (
             <div key={member.bioguideId} style={{ ...houseStyle, marginTop: '50px' }}>
               {member.depiction && member.depiction.imageUrl ? (
-                <img src={member.depiction.imageUrl} alt={member.name} style={{ width: '350px', height: '450px', borderRadius: '10px', marginBottom: '25px'}} />
+                <img src={member.depiction.imageUrl} alt={member.name} style={{ width: '350px', height: '450px', borderRadius: '10px', marginBottom: '15px'}} />
               ) : (
-                <img src={require('./images/senate_logo.png')} alt="Default" style={{ width: '100px', height: '100px', marginBottom: '30px' }} />
+                <img src={require('./images/senate_logo.png')} alt="Default" style={{ width: '100px', height: '100px'}} />
               )}
-              <strong style = {{ color: '#4C63FF', background: 'linear-gradient(180deg, rgba(255, 255, 255, 0) 65%, #d1dbff 65%)', fontSize: '30px'}}>{member.name}</strong>
+              <p style={{ fontWeight: '700', fontSize: '30px' }}>
+                <span style={{ color: '#4C63FF', background: 'linear-gradient(180deg, rgba(255, 255, 255, 0) 65%, #d1dbff 65%)', display: 'inline-block' }}>
+                  {member.name}
+                </span>
+              </p>              
               <p style = {{ marginTop: '40px', fontSize: '18px'}}> <strong>Party:</strong> {member.partyName}</p>
               <p style = {{ marginTop: '-10px', fontSize: '18px'}}> <strong>District:</strong> {member.district}</p>
-              <p style = {{ marginTop: '-15px', fontSize: '18px'}}> <strong>Chamber:</strong> {member.terms.item[0].chamber}</p>
+              <p style = {{ marginTop: '-11.5px', fontSize: '18px'}}> <strong>Chamber:</strong> {member.terms.item[0].chamber}</p>
               <p style = {{ marginTop: '-10px', fontSize: '18px'}}> <strong>Start Year:</strong> {member.terms.item[0].startYear}</p>
-              <a href={member.url}>More Info</a>
+              <a href={member.url} className="more-info-button" style={{ marginTop: '10px', fontFamily: 'Sarabun' }}>
+                More Info
+              </a>  
             </div>
           ))}
         </div>
       ))}
-      
-      <h2> Senators </h2>
+    
       {/* Senate members. */}
-      <div className = "slide-in" ref = {(el) => slideInElements.current.push(el)} style = {{ display: 'flex', gap: '50px', margin: '20px 0', justifyContent: 'center'}}>
-        {senateMemberRows.map((row, rowIndex) => (
-          <div key={rowIndex} className="slide-in" ref={(el) => slideInElements.current.push(el)} style={{ display: 'flex', gap: '20px', margin: '20px 0', justifyContent: 'center' }}>
-            {row.map(member => (
-              <div key={member.bioguideId} style={{ ...houseStyle, marginTop: '50px' }}>
-                {member.depiction && member.depiction.imageUrl ? (
-                  <img src={member.depiction.imageUrl} alt={member.name} style={{ width: '400px', height: '500px', borderRadius: '10px' }} />
-                ) : (
-                  <img src={require('./images/senate_logo.png')} alt="Default" style={{ width: '100px', height: '100px' }} />
-                )}
-                <h3 style={{ color: '#4C63FF' }}>{member.name}</h3>
-                <p> Party: {member.partyName}</p>
-                <p> District: {member.district}</p>
-                <p> Chamber: {member.terms.item[0].chamber}</p>
-                <p> Start Year: {member.terms.item[0].startYear}</p>
-                <a href={member.url}>More Info</a>
-              </div>
-            ))}
-          </div>
-        ))}
-      </div>
+      <p className="slide-in" ref={(el) => slideInElements.current.push(el)} style={{ color: 'black', fontSize: '35pt', fontWeight: '600', marginTop: '200px', background: 'linear-gradient(180deg, rgba(255, 255, 255, 0) 65%, #d1dbff 65%)', width: '200px'}}>
+        Senators
+      </p>
+      {senateMemberRows.map((row, rowIndex) => (
+        <div key = {rowIndex} className = "slide-in" ref = {(el) => slideInElements.current.push(el)} style={{ display: 'flex', gap: '50px', margin: '20px 0', justifyContent: 'center' }}>
+          {row.map(member => (
+            <div key = {member.bioguideId} style = {{ ...senateStyle, marginTop: '50px' }}>
+              {member.depiction && member.depiction.imageUrl ? (
+                <img src = {member.depiction.imageUrl} alt = {member.name} style = {{ width: '400px', height: '500px', borderRadius: '10px', marginBottom: '15px'}} />
+              ) : (
+                <img src = {require('./images/senate_logo.png')} alt = "Default" style = {{ width: '100px', height: '100px'}} />
+              )}
+              <p style={{ fontWeight: '700', fontSize: '30px' }}>
+                <span style={{ color: '#4C63FF', background: 'linear-gradient(180deg, rgba(255, 255, 255, 0) 65%, #d1dbff 65%)', display: 'inline-block' }}>
+                  {member.name}
+                </span>
+              </p>              
+              <p style = {{ marginTop: '40px', fontSize: '18px'}}> <strong>Party:</strong> {member.partyName}</p>
+              {/* <p style = {{ marginTop: '-10px', fontSize: '18px'}}> <strong>District:</strong> {member.district}</p> */}
+              <p style = {{ marginTop: '-12px', fontSize: '18px'}}> <strong>Chamber:</strong> Senator</p>
+              <p style = {{ marginTop: '-10px', fontSize: '18px'}}> <strong>Start Year:</strong> {member.terms.item[0].startYear}</p>
+              <a href={member.url} className="more-info-button" style={{ marginTop: '10px', fontFamily: 'Sarabun' }}>
+                More Info
+              </a>            
+            </div>
+          ))}
+        </div>
+      ))}
 
       {/* Display the chatbot */}
       <div style={{ marginTop: '50px' }}>
