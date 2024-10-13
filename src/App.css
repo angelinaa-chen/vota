@@ -115,6 +115,88 @@
   animation-delay: 0s;
 }
 
+/*------*/
+.circle-1b {
+  width: 500px;
+  height: 500px;
+  top: 300%;
+  left: 100%;
+  animation-delay: 0s;
+}
+
+.circle-2b {
+  width: 200px;
+  height: 200px;
+  top: 150%;
+  left: 90%;
+  animation-delay: 2s;
+}
+
+.circle-3b {
+  width: 220px;
+  height: 220px;
+  top: 70%;
+  left: -10%;
+  animation-delay: 4s;
+}
+
+.circle-4b {
+  width: 300px;
+  height: 300px;
+  top: 350%;
+  left: -5%;
+  animation-delay: 0s;
+}
+
+.circle-5b {
+  width: 150px;
+  height: 150px;
+  top: 250%;
+  left: 95%;
+  animation-delay: 0s;
+}
+
+.circle-6b {
+  width: 400px;
+  height: 400px;
+  top: 15%;
+  left: -10%;
+  animation-delay: 0s;
+}
+
+.circle-7b {
+  width: 300px;
+  height: 300px;
+  top: 300%;
+  left: 90%;
+  animation-delay: 0s;
+}
+
+.circle-8b {
+  width: 200px;
+  height: 200px;
+  top: 650%;
+  left: -10%;
+  animation-delay: 0s;
+}
+
+.circle-9b {
+  width: 300px;
+  height: 300px;
+  top: 450%;
+  left: -10%;
+  animation-delay: 0s;
+}
+
+.circle-10b {
+  width: 400px;
+  height: 400px;
+  top: 550%;
+  left: 80%;
+  animation-delay: 0s;
+}
+
+
 /* Sliding in from botton animation! */
 
 @keyframes slideIn {
