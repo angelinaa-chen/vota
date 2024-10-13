@@ -159,3 +159,23 @@
   background-color: #dee3ff5c;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.395);
 }
+
+/* Down arrow button details. */
+.down-arrow {
+  display: block;
+  margin: 0 auto; 
+  padding: 10px 15px;
+  font-size: 24px;
+  color: white;
+  /* background-color: #4C63FF; */
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.down-arrow:hover {
+  transform: scale(1.1); /* Slightly enlarge on hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}

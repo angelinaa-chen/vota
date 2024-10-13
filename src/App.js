@@ -171,7 +171,7 @@ function Home() {
         </strong> and about 
         <strong style = {{ color: '#4C63FF', background: 'linear-gradient(180deg, rgba(255, 255, 255, 0) 65%, #d1dbff 65%)' }}> voting registration details and deadlines!
         </strong> 
-</p>
+      </p>
 
       
 
@@ -372,28 +372,45 @@ function Location() {
     }, []);
   };
 
+  const scrollToSection = (id) => {
+    const section = document.getElementById(id);
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   const houseMemberRows = chunkArray(houseMembers, 3);
   const senateMemberRows = chunkArray(senateMembers, 2);
 
   return (
     <div className = "slide-in" ref={(el) => slideInElements.current.push(el)} style = {{ textAlign: 'left', padding: '70px', fontFamily: 'sarabun' }}>
-      <div style = {{ position: 'absolute', top: '250px', right: '50px', display: 'flex', gap: '50px' }}>
+      <div style = {{ position: 'absolute', top: '335px', right: '50px', display: 'flex', gap: '50px' }}>
         <img src = {require('./images/senate_logo.png')} alt="US Senate Logo" style = {{ width: '150px', height: '150px' }} />
         <img src = {require('./images/houserep_logo.png')} alt="US House Logo" style = {{ width: '150px', height: '150px' }} />
       </div>
+
       <h2
         className = "slide-in"
         ref = {(el) => slideInElements.current.push(el)}
-        style = {{ fontSize: '35px', marginTop: '150px' }}
+        style = {{ fontSize: '35px', marginTop: '250px' }}
       >
         House and Senate Representatives for:
       </h2>
-      <h1 className="slide-in" ref={(el) => slideInElements.current.push(el)} style={{ color: '#4C63FF', fontSize: '50pt', fontWeight: '700', marginTop: '70px' }}>
+      <h1 className="slide-in" ref={(el) => slideInElements.current.push(el)} style={{ color: '#4C63FF', fontSize: '50pt', fontWeight: '700', marginTop: '40px', marginBottom: '230px'}}>
         {location}
       </h1>
 
+      <h1 className="slide-in" ref={(el) => slideInElements.current.push(el)} style={{ color: 'grey', fontSize: '15pt', fontWeight: '500', marginTop: '190px', textAlign: 'center', marginBottom: '30px' }}>
+        Click below to learn more about the representatives that serve <span style={{ color: '#4C63FF', background: 'linear-gradient(180deg, rgba(255, 255, 255, 0) 65%, #d1dbff 65%)', display: 'inline-block' }}>
+          you. </span>
+      </h1>
+
+      <button className="down-arrow" onClick={() => scrollToSection('target-section')}>
+        &#x2193;
+      </button>
+      
       {/* Display member information */}
-      <p className="slide-in" ref={(el) => slideInElements.current.push(el)} style={{ color: 'black', fontSize: '35pt', fontWeight: '600', marginTop: '200px', background: 'linear-gradient(180deg, rgba(255, 255, 255, 0) 65%, #d1dbff 65%)', width: '350px'}}>
+      <p id="target-section" className="slide-in" ref={(el) => slideInElements.current.push(el)} style={{ color: 'black', fontSize: '35pt', fontWeight: '600', marginTop: '200px', background: 'linear-gradient(180deg, rgba(255, 255, 255, 0) 65%, #d1dbff 65%)', width: '350px'}}>
         Representatives
       </p>
 
@@ -470,6 +487,7 @@ function Location() {
 }
 
 function App() {
+
   return (
     <div style = {{ backgroundColor: '#F0F4FC', minHeight: '100vh'}}>
       <Router>
