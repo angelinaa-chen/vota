@@ -365,6 +365,14 @@ function Location() {
     };
   }, [location]);
 
+    const scrollToPosition = () => {
+      window.scrollTo({
+        top: 950,
+        left: 0, 
+        behavior: 'smooth'
+      });
+    };
+
   const chunkArray = (arr, size) => {
     return arr.reduce((acc, _, i) => {
       if (i % size === 0) acc.push(arr.slice(i, i + size));
@@ -372,12 +380,12 @@ function Location() {
     }, []);
   };
 
-  const scrollToSection = (id) => {
-    const section = document.getElementById(id);
-    if (section) {
-      section.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  // const scrollToSection = (id) => {
+  //   const section = document.getElementById(id);
+  //   if (section) {
+  //     section.scrollIntoView({ behavior: 'smooth' });
+  //   }
+  // };
 
   const houseMemberRows = chunkArray(houseMembers, 3);
   const senateMemberRows = chunkArray(senateMembers, 2);
@@ -405,17 +413,15 @@ function Location() {
           you. </span>
       </h1>
 
-      <button className="down-arrow" onClick={() => scrollToSection('target-section')}>
+      <button className="down-arrow" onClick={scrollToPosition}>
         &#x2193;
       </button>
       
-      {/* Display member information */}
-      <p id="target-section" className="slide-in" ref={(el) => slideInElements.current.push(el)} style={{ color: 'black', fontSize: '35pt', fontWeight: '600', marginTop: '200px', background: 'linear-gradient(180deg, rgba(255, 255, 255, 0) 65%, #d1dbff 65%)', width: '350px'}}>
-        Representatives
-      </p>
-
       {/* House representative members. */}
-      <h2 > House of Representatives </h2>
+      <p id="target-section" className="slide-in" ref={(el) => slideInElements.current.push(el)} style={{ color: 'black', fontSize: '35pt', fontWeight: '600', marginTop: '200px', background: 'linear-gradient(180deg, rgba(255, 255, 255, 0) 65%, #d1dbff 65%)', width: '550px'}}>
+        House of Representatives
+      </p>
+{/* <h2 > House of Representatives </h2> */}
       {houseMemberRows.map((row, rowIndex) => (
         <div key={rowIndex} className="slide-in" ref={(el) => slideInElements.current.push(el)} style={{ display: 'flex', gap: '50px', margin: '20px 0', justifyContent: 'center' }}>
           {row.map(member => (
