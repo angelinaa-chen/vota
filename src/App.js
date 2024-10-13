@@ -4,6 +4,7 @@ import "@fontsource/sarabun/500.css";
 import "@fontsource/sarabun/600.css";
 import "@fontsource/sarabun/700.css";
 import votingImage from './images/voting_2.png';
+import votingGif from './images/vote_gif.gif';
 import { useEffect, useRef } from 'react';
 
 // Chatbot imports
@@ -514,6 +515,21 @@ function Location() {
       <p className="slide-in" ref={(el) => slideInElements.current.push(el)} style={{ color: 'black', fontSize: '35pt', fontWeight: '600', marginTop: '200px', background: 'linear-gradient(180deg, rgba(255, 255, 255, 0) 65%, #d1dbff 65%)', width: '450px'}}>
         Try another location!
       </p>
+      <p style = {{ fontSize: '18px' }}>
+        Cick to navigate back to our home page to try out a different location! Additionally, a friendly reminder to vote in this upcoming 2024 election. Every vote counts. (:
+      </p>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '40px' }}>
+
+        <a href='https://www.sec.state.ma.us/ovr/' className="more-info-button" style={{ padding: '10px 20px', textDecoration: 'none', borderRadius: '15px' }}>
+          Go back to home page
+        </a>
+
+        <img src={votingGif} alt="center gif" style={{ height: '100px', margin: '0 20px' }} />
+
+        <a href='https://www.sec.state.ma.us/ovr/' className="more-info-button" style={{ padding: '10px 20px', textDecoration: 'none', borderRadius: '15px' }}>
+          Learn more about online voter registration!
+        </a>
+      </div>
     </div>
   );
 }
