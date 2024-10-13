@@ -407,7 +407,7 @@ function Location() {
     
 
     <div className = "slide-in" ref={(el) => slideInElements.current.push(el)} style = {{ textAlign: 'left', padding: '70px', fontFamily: 'sarabun' }}>
-      <div style = {{ position: 'absolute', top: '335px', right: '50px', display: 'flex', gap: '50px' }}>
+      <div style = {{ position: 'absolute', top: '220px', right: '50px', display: 'flex', gap: '50px' }}>
         <img src = {require('./images/senate_logo.png')} alt="US Senate Logo" style = {{ width: '150px', height: '150px' }} />
         <img src = {require('./images/houserep_logo.png')} alt="US House Logo" style = {{ width: '150px', height: '150px' }} />
       </div>
@@ -416,7 +416,7 @@ function Location() {
       <h2
         className = "slide-in"
         ref = {(el) => slideInElements.current.push(el)}
-        style = {{ fontSize: '35px', marginTop: '250px' }}
+        style = {{ fontSize: '35px', marginTop: '70px' }}
       >
         House and Senate Representatives for:
       </h2>
@@ -495,6 +495,14 @@ function Location() {
       ))}
 
       {/* Display the chatbot */}
+
+      <p className="slide-in" ref={(el) => slideInElements.current.push(el)} style={{ color: 'black', fontSize: '35pt', fontWeight: '600', marginTop: '200px', background: 'linear-gradient(180deg, rgba(255, 255, 255, 0) 65%, #d1dbff 65%)', width: '450px'}}>
+        Have any questions?
+      </p>
+      <p style = {{ fontSize: '18px' }}>
+        Meet <strong style = {{color: '#4C63FF'}} >Francesca</strong>, our chatbot that can help you answer anything related to to <strong style = {{color: '#4C63FF'}} >voting, candidates, representatives, and politics</strong>. Try her out!
+      </p>
+
       <div style={{ marginTop: '50px' }}>
         <Chatbot
           config={ChatBotConfig}
@@ -503,7 +511,9 @@ function Location() {
         />
       </div>
 
-      <h1>More text</h1>
+      <p className="slide-in" ref={(el) => slideInElements.current.push(el)} style={{ color: 'black', fontSize: '35pt', fontWeight: '600', marginTop: '200px', background: 'linear-gradient(180deg, rgba(255, 255, 255, 0) 65%, #d1dbff 65%)', width: '450px'}}>
+        Try another location!
+      </p>
     </div>
   );
 }
