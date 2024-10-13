@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, session, request
+from flask import Flask, jsonify, session, request,  render_template
 import json
 import requests
 import os
@@ -28,6 +28,22 @@ def get_id(response):
   else:
     print(f"Error: {response.status_code} - {response.text}")
     return []  # Return an empty list if there's an error
+  
+def get_json():
+   return {
+    "results": 
+    [ 
+      {"id": "ocd-person/adb58f21-f2fd-4830-85b6-f490b0867d14",
+      "name": "Angela Augusta",
+      "party": "Democratic",
+      "current_role": {
+        "title": "Senator",
+        "org_classification": "upper",
+        "district": 3,
+        "division_id": "ocd-division/country:us/state:nc/sldu:3"
+      }
+    }]
+  }
 
 
 #returns list of all states - will convert so that it returns a jurisdiction id that can then be used to search the API for other information
@@ -150,7 +166,7 @@ def get_candidates(state):
 # Define a route
 @app.route('/')
 def home():
-    return "Hello, Flask!"
+    return render_template('App.js')
 
 #testing input output - GET works!
 @app.route('/welcome/<location>', methods=['GET']) #eventually change input method to one of those start typing then select one of the options
