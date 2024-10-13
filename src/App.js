@@ -124,7 +124,7 @@ function Home() {
       {/* Heading & Title Section */}
       <div className = "slide-in" ref = {(el) => slideInElements.current.push(el)} style = {{ textAlign: 'left', flex: '1' }}>
         <h1 style = {{ color: '#2F2E41', fontSize: '35pt', marginBottom: '-30px', fontWeight: '700', marginTop: '100px'}}> Welcome to </h1>
-        <h1 style = {{ color: '#2F2E41', fontSize: '45pt', fontWeight: '700'}}> CivicConnect! <span style = {{color: '#4C63FF', fontSize: '25pt', marginLeft: '20px'}} > One vote, one voice. </span> </h1>
+        <h1 style = {{ color: '#2F2E41', fontSize: '45pt', fontWeight: '700'}}> Vota! <span style = {{color: '#4C63FF', fontSize: '25pt', marginLeft: '20px'}} > One vote, one voice. </span> </h1>
         <p style = {{ maxWidth: '700px', color: '#555555', fontSize: '20px', fontWeight: '500', marginTop: '50px', lineHeight: '1.5' }}>
           Voting is one of the most important ways to express your voice and influence the future of your community. Through the power of voting, let's empower civic engagement and strengthen our democracy.
         </p>
@@ -240,7 +240,7 @@ function Home() {
       <br></br>
       <h2 className = "slide-in" ref = {(el) => slideInElements.current.push(el)} >Find your local representative. </h2>
       <p className = "slide-in" ref = {(el) => slideInElements.current.push(el)} > Discover your elected representative and access pertinent voting resources! Simply type in your 
-      <strong style = {{ color: '#4C63FF', background: 'linear-gradient(180deg, rgba(255, 255, 255, 0) 65%, #d1dbff 65%)' }}> city and state name 
+      <strong style = {{ color: '#4C63FF', background: 'linear-gradient(180deg, rgba(255, 255, 255, 0) 65%, #d1dbff 65%)' }}> state abbreviation 
       </strong> to get started. </p>
       <form className = "slide-in" ref = {(el) => slideInElements.current.push(el)} onSubmit = {submitAction} style = {{ marginTop: '30px', fontFamily: 'sarabun'}}>
         {/* <label htmlFor = "location" style = {{ fontSize: '18px', color: '#555555' }}> Enter your city and state name in the format "city, state": </label> */}
@@ -249,9 +249,8 @@ function Home() {
           type = "text"
           value = {location}
           onChange = {(e) => setLocation(e.target.value)}
-          placeholder = 'City, State'
+          placeholder = 'State Abberviation (i.e. IN, AL, OH, WV)'
           style={{
-            // marginLeft: '10px',
             padding: '10px',
             fontSize: '16px',
             borderRadius: '4px',
@@ -326,7 +325,7 @@ function Location() {
         });;
 
         const senateMembers = data.members.filter (members =>
-          members.terms.item.some(term => term.chamber === "Senate" && parseInt(term.startYear) > 2000)
+          members.terms.item.some(term => term.chamber === "Senate" && parseInt(term.startYear) > 2015)
         );
 
         setHouseMembers(houseMembers);
