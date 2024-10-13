@@ -396,14 +396,14 @@ function Location() {
 
       <div className = "floating-circle circle-1b"> </div>
       <div className = "floating-circle circle-2b"> </div>
-      <div className = "floating-circle circle-3b"> </div>
+      {/* <div className = "floating-circle circle-3b"> </div> */}
       <div className = "floating-circle circle-4b"> </div>
-      <div className = "floating-circle circle-5b"> </div>
-      <div className = "floating-circle circle-6b"> </div>
+      {/* <div className = "floating-circle circle-5b"> </div> */}
+      {/* <div className = "floating-circle circle-6b"> </div> */}
       <div className = "floating-circle circle-7b"> </div>
-      <div className = "floating-circle circle-8b"> </div>
+      {/* <div className = "floating-circle circle-8b"> </div> */}
       <div className = "floating-circle circle-9b"> </div>
-      <div className = "floating-circle circle-10b"> </div>
+      {/* <div className = "floating-circle circle-10b"> </div> */}
     
 
     <div className = "slide-in" ref={(el) => slideInElements.current.push(el)} style = {{ textAlign: 'left', padding: '70px', fontFamily: 'sarabun' }}>

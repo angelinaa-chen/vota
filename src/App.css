@@ -127,7 +127,7 @@
 .circle-2b {
   width: 200px;
   height: 200px;
-  top: 120%;
+  top: 90%;
   left: 90%;
   animation-delay: 2s;
 }
@@ -143,7 +143,7 @@
 .circle-4b {
   width: 300px;
   height: 300px;
-  top: 200%;
+  top: 5%;
   left: -5%;
   animation-delay: 0s;
 }
@@ -151,7 +151,7 @@
 .circle-5b {
   width: 150px;
   height: 150px;
-  top:  100%;
+  top:  160%;
   left: 90%;
   animation-delay: 0s;
 }
@@ -167,7 +167,7 @@
 .circle-7b {
   width: 300px;
   height: 300px;
-  top: 300%;
+  top: 150%;
   left: 90%;
   animation-delay: 0s;
 }
@@ -175,7 +175,7 @@
 .circle-8b {
   width: 200px;
   height: 200px;
-  top: 10%;
+  top: 200%;
   left: 90%;
   animation-delay: 0s;
 }
@@ -183,7 +183,7 @@
 .circle-9b {
   width: 300px;
   height: 300px;
-  top: 450%;
+  top: 80%;
   left: -10%;
   animation-delay: 0s;
 }
@@ -191,7 +191,7 @@
 .circle-10b {
   width: 400px;
   height: 400px;
-  top: 550%;
+  top: 100%;
   left: 80%;
   animation-delay: 0s;
 }
