@@ -397,14 +397,18 @@ function Location() {
 
       <div className = "floating-circle circle-1b"> </div>
       <div className = "floating-circle circle-2b"> </div>
-      {/* <div className = "floating-circle circle-3b"> </div> */}
+      <div className = "floating-circle circle-3b"> </div>
       <div className = "floating-circle circle-4b"> </div>
-      {/* <div className = "floating-circle circle-5b"> </div> */}
-      {/* <div className = "floating-circle circle-6b"> </div> */}
+      <div className = "floating-circle circle-5b"> </div>
+      <div className = "floating-circle circle-6b"> </div>
       <div className = "floating-circle circle-7b"> </div>
-      {/* <div className = "floating-circle circle-8b"> </div> */}
+      <div className = "floating-circle circle-8b"> </div>
       <div className = "floating-circle circle-9b"> </div>
-      {/* <div className = "floating-circle circle-10b"> </div> */}
+      <div className = "floating-circle circle-10b"> </div>
+      <div className = "floating-circle circle-11b"> </div>
+      <div className = "floating-circle circle-12b"> </div>
+      <div className = "floating-circle circle-13b"> </div>
+      <div className = "floating-circle circle-14b"> </div>
     
 
     <div className = "slide-in" ref={(el) => slideInElements.current.push(el)} style = {{ textAlign: 'left', padding: '70px', fontFamily: 'sarabun' }}>
@@ -516,7 +520,7 @@ function Location() {
         Try another location!
       </p>
       <p style = {{ fontSize: '18px' }}>
-        Cick to navigate back to our home page to try out a different location! Additionally, a friendly reminder to vote in this upcoming 2024 election. Every vote counts. (:
+        Click to navigate back to our home page or to access methods to register to vote. Also a friendly reminder to vote in this upcoming 2024 election, every vote counts! (:
       </p>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '40px' }}>
 
