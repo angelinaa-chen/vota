@@ -281,9 +281,18 @@ const API_KEY = 'U9Xptmv9EgCBbqOUlgwlvwzHz14qn1doLVkkFKjf';
 function Location() {
   const slideInElements = useRef([]);
   const { location } = useParams();
-  const [members, setMembers] = useState([]);
   const [houseMembers, setHouseMembers] = useState([]);
   const [senateMembers, setSenateMembers] = useState([]);
+
+  const houseStyle = {
+    backgroundColor: 'white',
+    padding: '40px 20px',
+    borderRadius: '10px',
+    boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+    textAlign: 'center',
+    minWidth: '300px',
+    minHeight: '400px',
+  };
 
   const senateStyle = {
     backgroundColor: 'white',
@@ -293,7 +302,7 @@ function Location() {
     borderRadius: '10px',
     boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
     textAlign: 'center',
-    minWidth: '500px',
+    minWidth: '300px',
     minHeight: '400px',
   };
 
@@ -310,11 +319,15 @@ function Location() {
         const data = await response.json();
 
         const houseMembers = data.members.filter(member =>
-          member.terms.item.some(term => term.chamber === 'House of Representatives')
-        );
+          member.terms.item.some(term => term.chamber === 'House of Representatives' && parseInt(term.startYear) > 2015)
+        ).sort((a, b) => {
+          const aStartYear = parseInt(a.terms.item[0].startYear);
+          const bStartYear = parseInt(b.terms.item[0].startYear);
+          return bStartYear - aStartYear; // Sort descending (most recent first)
+        });;
 
         const senateMembers = data.members.filter (members =>
-          members.terms.item.some(term => term.chamber === "Senate")
+          members.terms.item.some(term => term.chamber === "Senate" && parseInt(term.startYear) > 2000)
         );
 
         setHouseMembers(houseMembers);
@@ -354,6 +367,16 @@ function Location() {
     };
   }, [location]);
 
+  const chunkArray = (arr, size) => {
+    return arr.reduce((acc, _, i) => {
+      if (i % size === 0) acc.push(arr.slice(i, i + size));
+      return acc;
+    }, []);
+  };
+
+  const houseMemberRows = chunkArray(houseMembers, 3);
+  const senateMemberRows = chunkArray(senateMembers, 2);
+
   return (
     <div className = "slide-in" ref={(el) => slideInElements.current.push(el)} style = {{ textAlign: 'left', padding: '70px', fontFamily: 'sarabun' }}>
       <div style = {{ position: 'absolute', top: '250px', right: '50px', display: 'flex', gap: '50px' }}>
@@ -378,38 +401,46 @@ function Location() {
 
       {/* House representative members. */}
       <h2> House of Representatives </h2>
-      <div className = "slide-in" ref = {(el) => slideInElements.current.push(el)} style = {{ display: 'flex', gap: '50px', margin: '20px 0', justifyContent: 'center'}}>
-        { houseMembers.map (( member ) => (
-          <div key = { member.bioguideId } style = {{ ...senateStyle, marginTop: '50px'}}>
-            {member.depiction && member.depiction.imageUrl ? (
-              <img src = {member.depiction.imageUrl} alt = {member.name} style = {{ width: '100px', height: '100px' }} />
-            ) : (
-              <img src = {require('./images/senate_logo.png')} alt="Default" style={{ width: '100px', height: '100px' }} />
-            )}            <h3>{member.name}</h3>
-            <p> Party: {member.partyName}</p>
-            <p> District: {member.district}</p>
-            <p> Chamber: {member.terms.item[0].chamber}</p>
-            <p> Start Year: {member.terms.item[0].startYear}</p>
-            <a href={member.url}>More Info</a>
-          </div>
-        ))}
-      </div>
+      {houseMemberRows.map((row, rowIndex) => (
+        <div key={rowIndex} className="slide-in" ref={(el) => slideInElements.current.push(el)} style={{ display: 'flex', gap: '50px', margin: '20px 0', justifyContent: 'center' }}>
+          {row.map(member => (
+            <div key={member.bioguideId} style={{ ...houseStyle, marginTop: '50px' }}>
+              {member.depiction && member.depiction.imageUrl ? (
+                <img src={member.depiction.imageUrl} alt={member.name} style={{ width: '350px', height: '450px', borderRadius: '10px', marginBottom: '25px'}} />
+              ) : (
+                <img src={require('./images/senate_logo.png')} alt="Default" style={{ width: '100px', height: '100px', marginBottom: '30px' }} />
+              )}
+              <strong style = {{ color: '#4C63FF', background: 'linear-gradient(180deg, rgba(255, 255, 255, 0) 65%, #d1dbff 65%)', fontSize: '30px'}}>{member.name}</strong>
+              <p style = {{ marginTop: '40px', fontSize: '18px'}}> <strong>Party:</strong> {member.partyName}</p>
+              <p style = {{ marginTop: '-10px', fontSize: '18px'}}> <strong>District:</strong> {member.district}</p>
+              <p style = {{ marginTop: '-15px', fontSize: '18px'}}> <strong>Chamber:</strong> {member.terms.item[0].chamber}</p>
+              <p style = {{ marginTop: '-10px', fontSize: '18px'}}> <strong>Start Year:</strong> {member.terms.item[0].startYear}</p>
+              <a href={member.url}>More Info</a>
+            </div>
+          ))}
+        </div>
+      ))}
       
       <h2> Senators </h2>
       {/* Senate members. */}
       <div className = "slide-in" ref = {(el) => slideInElements.current.push(el)} style = {{ display: 'flex', gap: '50px', margin: '20px 0', justifyContent: 'center'}}>
-        { senateMembers.map (( member ) => (
-          <div key = { member.bioguideId } style = {{ ...senateStyle, marginTop: '50px'}}>
-            {member.depiction && member.depiction.imageUrl ? (
-              <img src = {member.depiction.imageUrl} alt = {member.name} style = {{ width: '100px', height: '100px' }} />
-            ) : (
-              <img src = {require('./images/senate_logo.png')} alt="Default" style={{ width: '100px', height: '100px' }} />
-            )}            <h3>{member.name}</h3>
-            <p> Party: {member.partyName}</p>
-            <p> District: {member.district}</p>
-            <p> Chamber: {member.terms.item[0].chamber}</p>
-            <p> Start Year: {member.terms.item[0].startYear}</p>
-            <a href={member.url}>More Info</a>
+        {senateMemberRows.map((row, rowIndex) => (
+          <div key={rowIndex} className="slide-in" ref={(el) => slideInElements.current.push(el)} style={{ display: 'flex', gap: '20px', margin: '20px 0', justifyContent: 'center' }}>
+            {row.map(member => (
+              <div key={member.bioguideId} style={{ ...houseStyle, marginTop: '50px' }}>
+                {member.depiction && member.depiction.imageUrl ? (
+                  <img src={member.depiction.imageUrl} alt={member.name} style={{ width: '400px', height: '500px', borderRadius: '10px' }} />
+                ) : (
+                  <img src={require('./images/senate_logo.png')} alt="Default" style={{ width: '100px', height: '100px' }} />
+                )}
+                <h3 style={{ color: '#4C63FF' }}>{member.name}</h3>
+                <p> Party: {member.partyName}</p>
+                <p> District: {member.district}</p>
+                <p> Chamber: {member.terms.item[0].chamber}</p>
+                <p> Start Year: {member.terms.item[0].startYear}</p>
+                <a href={member.url}>More Info</a>
+              </div>
+            ))}
           </div>
         ))}
       </div>
@@ -427,99 +458,6 @@ function Location() {
     </div>
   );
 }
-
-
-// function Location() {
-  
-//   const slideInElements = useRef([]);
-//   const { location } = useParams();
-
-//     {/* Styles for representative boxes. */}
-//     const senateStyle = {
-//       backgroundColor: 'white',
-//       color: '#FF6F61',
-//       fontSize: '40pt',
-//       padding: '40px 20px',
-//       borderRadius: '10px',
-//       boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
-//       textAlign: 'center',
-//       minWidth: '500px',
-//       minHeight: '400px',
-//     };
-
-
-//   useEffect(() => {
-//     const observer = new IntersectionObserver(
-//       (entries, observer) => {
-//         entries.forEach((entry) => {
-//           if (entry.isIntersecting) {
-//             entry.target.classList.add('in-view');
-//             observer.unobserve(entry.target); 
-//           }
-//         });
-//       },
-//       { threshold: 0.1 }
-//     );
-
-//     slideInElements.current.forEach((el) => {
-//       if (el) {
-//         observer.observe(el);
-//       }
-//     });
-
-//     return () => {
-//       slideInElements.current.forEach((el) => {
-//         if (el) {
-//           observer.unobserve(el);
-//         }
-//       });
-//     };
-//   }, []);
-
-//   return (
-//     <div className = "slide-in" ref = {(el) => slideInElements.current.push(el) } style = {{ textAlign: 'left', padding: '70px', fontFamily: 'sarabun'}}>
-//        <div style={{ position: 'absolute', top: '250px', right: '50px', display: 'flex', gap: '50px' }}>
-//         <img src={require('./images/senate_logo.png')} alt="US Senate Logo" style={{ width: '150px', height: '150px' }} />
-//         <img src={require('./images/houserep_logo.png')} alt="US House Logo" style={{ width: '150px', height: '150px' }} />
-//       </div>
-//       <h2 
-//         className = "slide-in" 
-//         ref = { (el) => slideInElements.current.push(el) } 
-//         style = { { fontSize: '35px', marginTop: '150px'} }
-//       >
-//         House and Senate Representatives for:
-//       </h2>
-//       <h1 className = "slide-in" ref = {(el) => slideInElements.current.push(el) } style = {{ color: '#4C63FF', fontSize: '50pt', fontWeight: '700', marginTop: '70px'}} > {location} </h1>
-
-//       {/* Display senator information. */}
-//       <h1 className = "slide-in" ref = {(el) => slideInElements.current.push(el) } style = {{ color: 'black', fontSize: '35pt', fontWeight: '600', marginTop: '200px'}} > Senators </h1>
-//       <div className = "slide-in" ref = {(el) => slideInElements.current.push(el)} style = {{ display: 'flex', gap: '20px', margin: '20px 0' , justifyContent: 'center'}}>
-//         <div style={{ ...senateStyle, marginTop: '50px' }}>
-//           Charles E. Grassley
-//         </div>
-//         <div style={{ ...senateStyle, marginTop: '50px' }}>
-//           Joni Ernst
-//         </div>
-//       </div>
-
-
-//       {/* Display senator information. */}
-
-
-//       {/* Display the chatbot! */}
-//       <div style={{ marginTop: '50px' }}>
-//         <Chatbot
-//           config={ChatBotConfig}
-//           messageParser={MessageParser}
-//           actionProvider={ActionProvider}
-//         />
-//       </div>
-
-//       <h1> More text </h1>
-
-//     </div>
-//   );
-// }
 
 function App() {
   return (
