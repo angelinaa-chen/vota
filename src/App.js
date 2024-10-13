@@ -282,6 +282,8 @@ function Location() {
   const slideInElements = useRef([]);
   const { location } = useParams();
   const [members, setMembers] = useState([]);
+  const [houseMembers, setHouseMembers] = useState([]);
+  const [senateMembers, setSenateMembers] = useState([]);
 
   const senateStyle = {
     backgroundColor: 'white',
@@ -306,7 +308,17 @@ function Location() {
           throw new Error(`Error status: ${response.status}`);
         }
         const data = await response.json();
-        setMembers(data.members);
+
+        const houseMembers = data.members.filter(member =>
+          member.terms.item.some(term => term.chamber === 'House of Representatives')
+        );
+
+        const senateMembers = data.members.filter (members =>
+          members.terms.item.some(term => term.chamber === "Senate")
+        );
+
+        setHouseMembers(houseMembers);
+        setSenateMembers(senateMembers);
       } catch (error) {
         console.error('Error', error);
       }
@@ -343,15 +355,15 @@ function Location() {
   }, [location]);
 
   return (
-    <div className="slide-in" ref={(el) => slideInElements.current.push(el)} style={{ textAlign: 'left', padding: '70px', fontFamily: 'sarabun' }}>
-      <div style={{ position: 'absolute', top: '250px', right: '50px', display: 'flex', gap: '50px' }}>
-        <img src={require('./images/senate_logo.png')} alt="US Senate Logo" style={{ width: '150px', height: '150px' }} />
-        <img src={require('./images/houserep_logo.png')} alt="US House Logo" style={{ width: '150px', height: '150px' }} />
+    <div className = "slide-in" ref={(el) => slideInElements.current.push(el)} style = {{ textAlign: 'left', padding: '70px', fontFamily: 'sarabun' }}>
+      <div style = {{ position: 'absolute', top: '250px', right: '50px', display: 'flex', gap: '50px' }}>
+        <img src = {require('./images/senate_logo.png')} alt="US Senate Logo" style = {{ width: '150px', height: '150px' }} />
+        <img src = {require('./images/houserep_logo.png')} alt="US House Logo" style = {{ width: '150px', height: '150px' }} />
       </div>
       <h2
-        className="slide-in"
-        ref={(el) => slideInElements.current.push(el)}
-        style={{ fontSize: '35px', marginTop: '150px' }}
+        className = "slide-in"
+        ref = {(el) => slideInElements.current.push(el)}
+        style = {{ fontSize: '35px', marginTop: '150px' }}
       >
         House and Senate Representatives for:
       </h2>
@@ -363,9 +375,31 @@ function Location() {
       <h1 className="slide-in" ref={(el) => slideInElements.current.push(el)} style={{ color: 'black', fontSize: '35pt', fontWeight: '600', marginTop: '200px' }}>
         Representatives
       </h1>
-      <div className="slide-in" ref={(el) => slideInElements.current.push(el)} style={{ display: 'flex', gap: '20px', margin: '20px 0', justifyContent: 'center' }}>
-        {members.map((member) => (
-          <div key={member.bioguideId} style={{ ...senateStyle, marginTop: '50px' }}>
+
+      {/* House representative members. */}
+      <h2> House of Representatives </h2>
+      <div className = "slide-in" ref = {(el) => slideInElements.current.push(el)} style = {{ display: 'flex', gap: '50px', margin: '20px 0', justifyContent: 'center'}}>
+        { houseMembers.map (( member ) => (
+          <div key = { member.bioguideId } style = {{ ...senateStyle, marginTop: '50px'}}>
+            {member.depiction && member.depiction.imageUrl ? (
+              <img src = {member.depiction.imageUrl} alt = {member.name} style = {{ width: '100px', height: '100px' }} />
+            ) : (
+              <img src = {require('./images/senate_logo.png')} alt="Default" style={{ width: '100px', height: '100px' }} />
+            )}            <h3>{member.name}</h3>
+            <p> Party: {member.partyName}</p>
+            <p> District: {member.district}</p>
+            <p> Chamber: {member.terms.item[0].chamber}</p>
+            <p> Start Year: {member.terms.item[0].startYear}</p>
+            <a href={member.url}>More Info</a>
+          </div>
+        ))}
+      </div>
+      
+      <h2> Senators </h2>
+      {/* Senate members. */}
+      <div className = "slide-in" ref = {(el) => slideInElements.current.push(el)} style = {{ display: 'flex', gap: '50px', margin: '20px 0', justifyContent: 'center'}}>
+        { senateMembers.map (( member ) => (
+          <div key = { member.bioguideId } style = {{ ...senateStyle, marginTop: '50px'}}>
             {member.depiction && member.depiction.imageUrl ? (
               <img src = {member.depiction.imageUrl} alt = {member.name} style = {{ width: '100px', height: '100px' }} />
             ) : (
