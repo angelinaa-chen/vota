@@ -1,16 +1,114 @@
-from flask import Flask, jsonify, session, request
+from flask import Flask, jsonify, session, request,  render_template
 import json
 import requests
 import os
 from dotenv import load_dotenv
+from flask_cors import CORS
 
 # Initialize the Flask app
 app = Flask(__name__)
+CORS(app)
 
 load_dotenv()
-api_key = os.getenv("OPENSTATES_API_KEY")
+api_key = os.getenv("CONGRESS_API_KEY")
 app.secret_key = os.urandom(64)
 
+# @app.route('/get_member/<state>', methods = ['GET'])
+# def get_member(state):
+#   url = "https://api.congress.gov/v3/member"
+    
+#     # Construct the URL with the state code and API key
+#   response = requests.get(f"{url}?stateCode={state}&api_key={api_key}")
+
+#   #response = requests.get(url)
+#   #response = requests.get(f"{url}&stateCode={state}&api_key={api_key}")
+    
+#   # Check if the request was successful
+#   if response.status_code == 200:
+#       # Parse and return the JSON response
+#       data = response.json()  # Assuming the API returns a JSON response
+#       return jsonify(data)
+#   else:
+#       # Return an error message if the request failed
+#       return jsonify({"error": "Failed to fetch data", "status": response.status_code}), response.status_code
+
+@app.route('/get_member/<state>', methods=['GET'])
+def get_member(state):
+    url = "https://api.congress.gov/v3/member/"
+    
+    # Construct the URL with the state code and API key
+    response = requests.get(f"{url}{state}?api_key={api_key}")
+    
+  # Check if the request was successful
+    if response.status_code == 200:
+        # Parse and return the JSON response
+        data = response.json()  # Assuming the API returns a JSON response
+        return jsonify(data)
+    else:
+        # Return an error message if the request failed
+        return jsonify({"error": "Failed to fetch data", "status": response.status_code}), response.status_code
+
+#returns state abbreviation given a state name
+def get_state_abbreviation(state_name):
+  state_abbreviations = {
+      "Alabama": "AL",
+      "Alaska": "AK",
+      "Arizona": "AZ",
+      "Arkansas": "AR",
+      "California": "CA",
+      "Colorado": "CO",
+      "Connecticut": "CT",
+      "Delaware": "DE",
+      "Florida": "FL",
+      "Georgia": "GA",
+      "Hawaii": "HI",
+      "Idaho": "ID",
+      "Illinois": "IL",
+      "Indiana": "IN",
+      "Iowa": "IA",
+      "Kansas": "KS",
+      "Kentucky": "KY",
+      "Louisiana": "LA",
+      "Maine": "ME",
+      "Maryland": "MD",
+      "Massachusetts": "MA",
+      "Michigan": "MI",
+      "Minnesota": "MN",
+      "Mississippi": "MS",
+      "Missouri": "MO",
+      "Montana": "MT",
+      "Nebraska": "NE",
+      "Nevada": "NV",
+      "New Hampshire": "NH",
+      "New Jersey": "NJ",
+      "New Mexico": "NM",
+      "New York": "NY",
+      "North Carolina": "NC",
+      "North Dakota": "ND",
+      "Ohio": "OH",
+      "Oklahoma": "OK",
+      "Oregon": "OR",
+      "Pennsylvania": "PA",
+      "Rhode Island": "RI",
+      "South Carolina": "SC",
+      "South Dakota": "SD",
+      "Tennessee": "TN",
+      "Texas": "TX",
+      "Utah": "UT",
+      "Vermont": "VT",
+      "Virginia": "VA",
+      "Washington": "WA",
+      "West Virginia": "WV",
+      "Wisconsin": "WI",
+      "Wyoming": "WY"
+  }
+  state_name = state_name.strip().title()
+  return state_abbreviations.get(state_name, "Unknown State")
+    
+
+
+
+#helper function for get_jurisdictions
 def get_jurisdiction(response):
   if response.status_code == 200:
         data = response.json()
@@ -20,16 +118,6 @@ def get_jurisdiction(response):
       print(f"Error: {response.status_code} - {response.text}")
       return []  # Return an empty list if there's an error
   
-#returns response
-def get_id(response):
-  if response.status_code == 200:
-      data = response.json()
-      return [result['id'] for result in data['results']]
-  else:
-    print(f"Error: {response.status_code} - {response.text}")
-    return []  # Return an empty list if there's an error
-
-
 #returns list of all states - will convert so that it returns a jurisdiction id that can then be used to search the API for other information
 @app.route("/jurisdictions")
 def get_jurisdictions():
@@ -86,76 +174,22 @@ def get_candidates(state):
 
     # Return an error if the state is not found
   return jsonify({"error": "State not found"}), 404
-  
-  
-  #return requests.get(f"{url}&jurisdiction={state}", headers=headers)
-  # for x in range(len(state_json)) :
-  #    jurisdiction = state_json[x]
-  #    if jurisdiction == state:
-  #       return requests.get(f"{url}&jurisdiction={jurisdiction}", headers=headers)
-  #    else:
-  #       return jsonify({"error1": "State not found"}), 404  # Return a 404 error if the state is not found
-  # return jsonify({"error2": "State not found"}), 404  # Return a 404 error if the state is not found
-  # return jsonify(state)
-
-#if the current string is the equivalent to the inputed state, call the api to return the candidates
-  # for jurisdiction in state_json:
-  #   # Ensure to access the correct field to compare with the state
-  #   if jurisdiction['name'].lower() == state.lower():
-  #       # Use the jurisdiction id for the candidates request
-  #       jurisdiction_id = jurisdiction['id']  
-  #       response = requests.get(f"{url}&jurisdiction={jurisdiction_id}", headers=headers)
-
-  #       # Check the response status
-  #       if response.status_code == 200:
-  #           candidates_data = response.json()  # Extract the JSON from the response
-  #           return jsonify(candidates_data['results'])  # Assuming candidates are in 'results' key
-  #       else:
-  #           return jsonify({"error": "Failed to fetch candidates", "status": response.status_code}), response.status_code
-
-  #   return jsonify({"error": "State not found"}), 404  # Return a 404 error if the state is not found
-
-
-  # for jurisdiction in state_json:
-  #   if jurisdiction.lower() == state.lower():
-  #       #return candidates.append(jurisdiction)
-  #       response = requests.get(f"{url}&jurisdiction={jurisdiction}")
-  #       # candidates.extend(response)
-  #       if response.status_code == 200:
-  #         return jsonify(response)  # Extract the JSON from the response
-  #         # candidates.extend(candidates_data['results'])  # Assuming candidates are in 'results' key
-  #       else:
-  #         return jsonify({"error": "Failed to fetch candidates1", "status": response.status_code}), response.status_code
-  # return jsonify({"error": "Failed to fetch candidates2", "status": response.status_code}), response.status_code
-
-  # if candidates:
-  #     return jsonify(candidates)  # Return a JSON response
-  # else:
-  #     return jsonify({"error": "State not found"}), 404
-
-  # id = ""
-  # state_json = get_jurisdictions()
-  # return print(state_json)
-  # for result in state_json:
-  #   if (result['name'] == state):
-  #     id = result['id']
-  # #id = get_id(juris_id)  # Get id of the jurisdiction
-
-  # if id != "":  # Only extend if result is not empty
-  #   response = requests.get(f"{url}&jurisdiction={id}", headers=headers)
-  #   candidates.extend(response)  # Aggregate results
-
-  # return jsonify(candidates)
 
 # Define a route
 @app.route('/')
 def home():
-    return "Hello, Flask!"
+    return render_template('App.js')
 
 #testing input output - GET works!
 @app.route('/welcome/<location>', methods=['GET']) #eventually change input method to one of those start typing then select one of the options
 def welcome(name):
     return jsonify(message=f"Location: {name}!")
+
+@app.route('/submit', methods=['POST'])
+def submit():
+   data = request.get_json()
+   name = data.get('location')
+   return name
 
 # Run the app
 if __name__ == '__main__':
