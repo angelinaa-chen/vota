@@ -375,11 +375,27 @@ function Location() {
   const houseMemberRows = chunkArray(houseMembers, 3);
   const senateMemberRows = chunkArray(senateMembers, 2);
 
+  
   return (
+    <div style = {{ textAlign: 'left', padding: '100px', fontFamily: 'sarabun'}}>
+
+      <div className = "floating-circle circle-1b"> </div>
+      <div className = "floating-circle circle-2b"> </div>
+      <div className = "floating-circle circle-3b"> </div>
+      <div className = "floating-circle circle-4b"> </div>
+      <div className = "floating-circle circle-5b"> </div>
+      <div className = "floating-circle circle-6b"> </div>
+      <div className = "floating-circle circle-7b"> </div>
+      <div className = "floating-circle circle-8b"> </div>
+      <div className = "floating-circle circle-9b"> </div>
+      <div className = "floating-circle circle-10b"> </div>
+    
+
     <div className = "slide-in" ref={(el) => slideInElements.current.push(el)} style = {{ textAlign: 'left', padding: '70px', fontFamily: 'sarabun' }}>
       <div style = {{ position: 'absolute', top: '250px', right: '50px', display: 'flex', gap: '50px' }}>
         <img src = {require('./images/senate_logo.png')} alt="US Senate Logo" style = {{ width: '150px', height: '150px' }} />
         <img src = {require('./images/houserep_logo.png')} alt="US House Logo" style = {{ width: '150px', height: '150px' }} />
+      </div>
       </div>
       <h2
         className = "slide-in"
