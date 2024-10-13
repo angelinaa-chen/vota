@@ -1,7 +1,7 @@
 import { createChatBotMessage } from 'react-chatbot-kit';
 
 const config = {
-  botName: "CivicConnect",
+  botName: "Francesca (our beautiful & wonderful chatbot)",
   initialMessages: [createChatBotMessage(`Heyo!`)],
   customStyles: {
     botMessageBox: {
