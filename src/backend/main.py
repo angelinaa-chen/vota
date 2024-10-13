@@ -10,10 +10,46 @@ app = Flask(__name__)
 CORS(app)
 
 load_dotenv()
-api_key = os.getenv("OPENSTATES_API_KEY")
+api_key = os.getenv("CONGRESS_API_KEY")
 app.secret_key = os.urandom(64)
 
-  
+# @app.route('/get_member/<state>', methods = ['GET'])
+# def get_member(state):
+#   url = "https://api.congress.gov/v3/member"
+    
+#     # Construct the URL with the state code and API key
+#   response = requests.get(f"{url}?stateCode={state}&api_key={api_key}")
+
+#   #response = requests.get(url)
+#   #response = requests.get(f"{url}&stateCode={state}&api_key={api_key}")
+    
+#   # Check if the request was successful
+#   if response.status_code == 200:
+#       # Parse and return the JSON response
+#       data = response.json()  # Assuming the API returns a JSON response
+#       return jsonify(data)
+#   else:
+#       # Return an error message if the request failed
+#       return jsonify({"error": "Failed to fetch data", "status": response.status_code}), response.status_code
+
+@app.route('/get_member/<state>', methods=['GET'])
+def get_member(state):
+    url = "https://api.congress.gov/v3/member/"
+    
+    # Construct the URL with the state code and API key
+    response = requests.get(f"{url}{state}?api_key={api_key}")
+    
+  # Check if the request was successful
+    if response.status_code == 200:
+        # Parse and return the JSON response
+        data = response.json()  # Assuming the API returns a JSON response
+        return jsonify(data)
+    else:
+        # Return an error message if the request failed
+        return jsonify({"error": "Failed to fetch data", "status": response.status_code}), response.status_code
+
+
+@app.route('/get_json')
 def get_json():
    return {
     "results": 
