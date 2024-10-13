@@ -25,6 +25,13 @@ class ActionProvider {
         this.addMessageToBotState(message);
     };
 
+    handleJoni = () => {
+        const message = this.createChatBotMessage(
+            "Joni Ernst, the Republican senator from Iowa, has focused her policies on several key areas, including fiscal conservatism, national security, and agricultural issues. She advocates for reducing government spending and lowering taxes, arguing that such measures foster economic growth and job creation. On national security, Ernst emphasizes the importance of a strong military and has been vocal about supporting veterans and military families!"
+        );
+        this.addMessageToBotState(message);
+    }
+
   
     addMessageToBotState = (message) => {
       this.setState((prevState) => ({

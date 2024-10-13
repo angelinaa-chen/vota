@@ -12,6 +12,9 @@ class MessageParser {
       else if (lowerCaseMessage.includes("election")) {
         this.actionProvider.handleElectionInfo();
       }
+      else if (lowerCaseMessage.includes("joni")) {
+        this.actionProvider.handleJoni();
+      }
       else {
         this.actionProvider.handleDefault();
       }
