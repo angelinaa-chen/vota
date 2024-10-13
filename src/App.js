@@ -1,6 +1,7 @@
 import './App.css';
 import "@fontsource/sarabun/200.css";
 import "@fontsource/sarabun/500.css";
+import "@fontsource/sarabun/600.css";
 import "@fontsource/sarabun/700.css";
 import votingImage from './images/voting_2.png';
 import { useEffect, useRef } from 'react';
@@ -275,18 +276,51 @@ function Home() {
   );
 }
 
+const API_KEY = 'U9Xptmv9EgCBbqOUlgwlvwzHz14qn1doLVkkFKjf';
+
 function Location() {
-  
   const slideInElements = useRef([]);
   const { location } = useParams();
+  const [members, setMembers] = useState([]);
+
+  const senateStyle = {
+    backgroundColor: 'white',
+    color: '#FF6F61',
+    fontSize: '40pt',
+    padding: '40px 20px',
+    borderRadius: '10px',
+    boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+    textAlign: 'center',
+    minWidth: '500px',
+    minHeight: '400px',
+  };
 
   useEffect(() => {
+    const fetchMemberData = async () => {
+      const stateCode = location;
+      const url = `https://api.congress.gov/v3/member/${stateCode}?api_key=${API_KEY}`;
+      
+      try {
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error(`Error status: ${response.status}`);
+        }
+        const data = await response.json();
+        setMembers(data.members);
+      } catch (error) {
+        console.error('Error', error);
+      }
+    };
+
+    fetchMemberData();
+
+    {/* Sliding in effect when page loads. */}
     const observer = new IntersectionObserver(
       (entries, observer) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add('in-view');
-            observer.unobserve(entry.target); 
+            observer.unobserve(entry.target);
           }
         });
       },
@@ -306,13 +340,47 @@ function Location() {
         }
       });
     };
-  }, []);
+  }, [location]);
 
   return (
-    <div style = {{ textAlign: 'left', padding: '70px', fontFamily: 'sarabun'}}>
-      <h2 className = "slide-in" ref = {(el) => slideInElements.current.push(el) }> House and Senate Representatives for </h2>
-      <h1 className = "slide-in" ref = {(el) => slideInElements.current.push(el) } style = {{ color: '#4C63FF', fontSize: '45pt', fontWeight: '700'}} > {location} </h1>
+    <div className="slide-in" ref={(el) => slideInElements.current.push(el)} style={{ textAlign: 'left', padding: '70px', fontFamily: 'sarabun' }}>
+      <div style={{ position: 'absolute', top: '250px', right: '50px', display: 'flex', gap: '50px' }}>
+        <img src={require('./images/senate_logo.png')} alt="US Senate Logo" style={{ width: '150px', height: '150px' }} />
+        <img src={require('./images/houserep_logo.png')} alt="US House Logo" style={{ width: '150px', height: '150px' }} />
+      </div>
+      <h2
+        className="slide-in"
+        ref={(el) => slideInElements.current.push(el)}
+        style={{ fontSize: '35px', marginTop: '150px' }}
+      >
+        House and Senate Representatives for:
+      </h2>
+      <h1 className="slide-in" ref={(el) => slideInElements.current.push(el)} style={{ color: '#4C63FF', fontSize: '50pt', fontWeight: '700', marginTop: '70px' }}>
+        {location}
+      </h1>
 
+      {/* Display member information */}
+      <h1 className="slide-in" ref={(el) => slideInElements.current.push(el)} style={{ color: 'black', fontSize: '35pt', fontWeight: '600', marginTop: '200px' }}>
+        Representatives
+      </h1>
+      <div className="slide-in" ref={(el) => slideInElements.current.push(el)} style={{ display: 'flex', gap: '20px', margin: '20px 0', justifyContent: 'center' }}>
+        {members.map((member) => (
+          <div key={member.bioguideId} style={{ ...senateStyle, marginTop: '50px' }}>
+            {member.depiction && member.depiction.imageUrl ? (
+              <img src = {member.depiction.imageUrl} alt = {member.name} style = {{ width: '100px', height: '100px' }} />
+            ) : (
+              <img src = {require('./images/senate_logo.png')} alt="Default" style={{ width: '100px', height: '100px' }} />
+            )}            <h3>{member.name}</h3>
+            <p> Party: {member.partyName}</p>
+            <p> District: {member.district}</p>
+            <p> Chamber: {member.terms.item[0].chamber}</p>
+            <p> Start Year: {member.terms.item[0].startYear}</p>
+            <a href={member.url}>More Info</a>
+          </div>
+        ))}
+      </div>
+
+      {/* Display the chatbot */}
       <div style={{ marginTop: '50px' }}>
         <Chatbot
           config={ChatBotConfig}
@@ -321,11 +389,103 @@ function Location() {
         />
       </div>
 
-      <h1> More text </h1>
-
+      <h1>More text</h1>
     </div>
   );
 }
+
+
+// function Location() {
+  
+//   const slideInElements = useRef([]);
+//   const { location } = useParams();
+
+//     {/* Styles for representative boxes. */}
+//     const senateStyle = {
+//       backgroundColor: 'white',
+//       color: '#FF6F61',
+//       fontSize: '40pt',
+//       padding: '40px 20px',
+//       borderRadius: '10px',
+//       boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+//       textAlign: 'center',
+//       minWidth: '500px',
+//       minHeight: '400px',
+//     };
+
+
+//   useEffect(() => {
+//     const observer = new IntersectionObserver(
+//       (entries, observer) => {
+//         entries.forEach((entry) => {
+//           if (entry.isIntersecting) {
+//             entry.target.classList.add('in-view');
+//             observer.unobserve(entry.target); 
+//           }
+//         });
+//       },
+//       { threshold: 0.1 }
+//     );
+
+//     slideInElements.current.forEach((el) => {
+//       if (el) {
+//         observer.observe(el);
+//       }
+//     });
+
+//     return () => {
+//       slideInElements.current.forEach((el) => {
+//         if (el) {
+//           observer.unobserve(el);
+//         }
+//       });
+//     };
+//   }, []);
+
+//   return (
+//     <div className = "slide-in" ref = {(el) => slideInElements.current.push(el) } style = {{ textAlign: 'left', padding: '70px', fontFamily: 'sarabun'}}>
+//        <div style={{ position: 'absolute', top: '250px', right: '50px', display: 'flex', gap: '50px' }}>
+//         <img src={require('./images/senate_logo.png')} alt="US Senate Logo" style={{ width: '150px', height: '150px' }} />
+//         <img src={require('./images/houserep_logo.png')} alt="US House Logo" style={{ width: '150px', height: '150px' }} />
+//       </div>
+//       <h2 
+//         className = "slide-in" 
+//         ref = { (el) => slideInElements.current.push(el) } 
+//         style = { { fontSize: '35px', marginTop: '150px'} }
+//       >
+//         House and Senate Representatives for:
+//       </h2>
+//       <h1 className = "slide-in" ref = {(el) => slideInElements.current.push(el) } style = {{ color: '#4C63FF', fontSize: '50pt', fontWeight: '700', marginTop: '70px'}} > {location} </h1>
+
+//       {/* Display senator information. */}
+//       <h1 className = "slide-in" ref = {(el) => slideInElements.current.push(el) } style = {{ color: 'black', fontSize: '35pt', fontWeight: '600', marginTop: '200px'}} > Senators </h1>
+//       <div className = "slide-in" ref = {(el) => slideInElements.current.push(el)} style = {{ display: 'flex', gap: '20px', margin: '20px 0' , justifyContent: 'center'}}>
+//         <div style={{ ...senateStyle, marginTop: '50px' }}>
+//           Charles E. Grassley
+//         </div>
+//         <div style={{ ...senateStyle, marginTop: '50px' }}>
+//           Joni Ernst
+//         </div>
+//       </div>
+
+
+//       {/* Display senator information. */}
+
+
+//       {/* Display the chatbot! */}
+//       <div style={{ marginTop: '50px' }}>
+//         <Chatbot
+//           config={ChatBotConfig}
+//           messageParser={MessageParser}
+//           actionProvider={ActionProvider}
+//         />
+//       </div>
+
+//       <h1> More text </h1>
+
+//     </div>
+//   );
+// }
 
 function App() {
   return (
