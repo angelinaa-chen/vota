@@ -11,7 +11,7 @@ With the 2024 presidential election – a historical and critical event – comi
 
 ## Cloning the project
 
-To run our project, run:
+To clone this repository, run in a terminal:
 
     git clone https://github.com/angelinaa-chen/vota
 
